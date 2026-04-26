@@ -1,0 +1,2 @@
+NAME                   REFERENCE                 TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+scaletestapp-hpa-rps   Deployment/scaletestapp   6583m/2   1         10        10         6m55s

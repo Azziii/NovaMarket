@@ -1,0 +1,29 @@
+Name:                                  scaletestapp-hpa-rps
+Namespace:                             default
+Labels:                                <none>
+Annotations:                           <none>
+CreationTimestamp:                     Tue, 21 Apr 2026 00:55:06 +0300
+Reference:                             Deployment/scaletestapp
+Metrics:                               ( current / target )
+  "http_requests_per_second" on pods:  5644m / 2
+Min replicas:                          1
+Max replicas:                          10
+Deployment pods:                       10 current / 10 desired
+Conditions:
+  Type            Status  Reason               Message
+  ----            ------  ------               -------
+  AbleToScale     True    ScaleDownStabilized  recent recommendations were higher than current one, applying the highest recent recommendation
+  ScalingActive   True    ValidMetricFound     the HPA was able to successfully calculate a replica count from pods metric http_requests_per_second
+  ScalingLimited  True    TooManyReplicas      the desired replica count is more than the maximum replica count
+Events:
+  Type     Reason                        Age                    From                       Message
+  ----     ------                        ----                   ----                       -------
+  Warning  AmbiguousSelector             7m5s (x3 over 7m35s)   horizontal-pod-autoscaler  pods by selector app=scaletestapp are controlled by multiple HPAs: [default/scaletestapp-hpa-memory default/scaletestapp-hpa-rps]
+  Warning  FailedComputeMetricsReplicas  7m5s (x3 over 7m35s)   horizontal-pod-autoscaler  pods by selector app=scaletestapp are controlled by multiple HPAs: [default/scaletestapp-hpa-memory default/scaletestapp-hpa-rps]
+  Warning  FailedGetPodsMetric           6m50s                  horizontal-pod-autoscaler  unable to get metric http_requests_per_second: no metrics returned from custom metrics API
+  Warning  FailedComputeMetricsReplicas  6m50s                  horizontal-pod-autoscaler  invalid metrics (1 invalid out of 1), first error is: failed to get pods metric value: unable to get metric http_requests_per_second: no metrics returned from custom metrics API
+  Warning  FailedGetPodsMetric           4m50s (x8 over 6m35s)  horizontal-pod-autoscaler  unable to get metric http_requests_per_second: unable to fetch metrics from custom metrics API: the server could not find the metric http_requests_per_second for pods
+  Warning  FailedComputeMetricsReplicas  4m50s (x8 over 6m35s)  horizontal-pod-autoscaler  invalid metrics (1 invalid out of 1), first error is: failed to get pods metric value: unable to get metric http_requests_per_second: unable to fetch metrics from custom metrics API: the server could not find the metric http_requests_per_second for pods
+  Normal   SuccessfulRescale             3m35s                  horizontal-pod-autoscaler  New size: 4; reason: pods metric http_requests_per_second above target
+  Normal   SuccessfulRescale             3m20s                  horizontal-pod-autoscaler  New size: 8; reason: pods metric http_requests_per_second above target
+  Normal   SuccessfulRescale             3m5s                   horizontal-pod-autoscaler  New size: 10; reason: pods metric http_requests_per_second above target
