@@ -1,0 +1,22 @@
+@startuml
+participant Order
+participant Kafka
+participant Inventory
+participant Payment
+participant Delivery
+
+Order -> Kafka: OrderCreated
+
+Kafka -> Inventory: OrderCreated
+Inventory -> Kafka: ItemsReserved
+
+Kafka -> Payment: ItemsReserved
+Payment -> Kafka: PaymentSucceeded
+
+Kafka -> Delivery: PaymentSucceeded
+Delivery -> Kafka: DeliveryCreated
+
+Kafka -> Order: DeliveryCreated
+Order -> Kafka: OrderCompleted
+
+@enduml

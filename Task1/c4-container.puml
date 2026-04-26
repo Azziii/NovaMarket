@@ -1,0 +1,35 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(customer, "Customer", "Покупатель через мобильное приложение")
+
+System_Boundary(system, "NovaMarket") {
+
+    Container(api, "API Gateway", "NGINX", "Единая точка входа")
+
+    Container(user, "User Service", "Kotlin, Spring Boot", "Пользователи и авторизация")
+    Container(catalog, "Catalog Service", "Kotlin, Spring Boot", "Каталог товаров")
+    Container(cart, "Cart Service", "Kotlin, Spring Boot", "Корзина")
+    Container(order, "Order Service", "Kotlin, Spring Boot", "Заказы и Saga")
+    Container(inventory, "Inventory Service", "Kotlin, Spring Boot", "Остатки и резервы")
+    Container(payment, "Payment Service", "Kotlin, Spring Boot", "Оплата")
+    Container(delivery, "Delivery Service", "Kotlin, Spring Boot", "Доставка")
+    Container(notification, "Notification Service", "Kotlin, Spring Boot", "Уведомления")
+
+    Container(kafka, "Kafka", "Event Broker", "Обмен событиями")
+}
+
+Rel(customer, api, "HTTP")
+
+Rel(api, user, "REST")
+Rel(api, catalog, "REST")
+Rel(api, cart, "REST")
+Rel(api, order, "REST")
+
+Rel(order, kafka, "publishes")
+Rel(inventory, kafka, "publishes/subscribes")
+Rel(payment, kafka, "publishes/subscribes")
+Rel(delivery, kafka, "publishes/subscribes")
+Rel(notification, kafka, "subscribes")
+
+@enduml
